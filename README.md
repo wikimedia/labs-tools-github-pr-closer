@@ -6,13 +6,16 @@ See [T249703](https://phabricator.wikimedia.org/T249703).
 
 1. Go to organization settings -> (under developer settings) github apps -> new github apps
 2. Fill in the page. Pay attention to the following settings:
-    * **Webhook**: active=true, url=https://(base-url)/github, secret=(random string here)
-    * **Repository permissions**:  Pull requests=read and write,  Single file=read-only for `.gitreview`
-    * **Subscribe to events**: Pull request=true
+    * **GitHub app name, Description, Homepage URL**: these are displayed to the user, so please put something helpful here. app name is used for when naming the bot account.
+    * **Webhook**: active=true, url=https://(base-url)/github, secret=(generate random string here)
+    * **Repository permissions**: Enable Pull requests as read and write and Single file as read-only for `.gitreview`. This will enable Metadata, leave it as is.
+    * **Subscribe to events**: Enable event "Pull request", leave everything else disabled
 3. Create the app
-4. Create a private key for the app under "Private keys" and add it to this deployment's root with name `github-app-key.pem`
-5. Install app to all repositories
-6. Copy `.env.example` to `.env` and fill GITHUB_APP_ID=(app id) GITHUB_APP_SECRET=(webhook secret you set earlier)
+4. Go to app settings -> (in sidebar) general -> private keys -> generate a private key -> save file to the same directory where `app.py` is with the name `github-app-key.pem`
+5. Go to app settings -> (in sidebar) install app -> select your organization and click install -> use all repositories -> install 
+6. Copy `.env.example` to `.env` and fill in the following settings:
+    * GITHUB_APP_ID=(app settings ->  general in sidebar -> about -> App ID)
+    * GITHUB_APP_SECRET=(webhook secret you set when creating the application)
 7. Profit
 
 ## Resources used
