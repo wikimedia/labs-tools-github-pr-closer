@@ -1,4 +1,3 @@
-import os
 import subprocess
 from flask import Flask, render_template
 from webhook_handler import webhook
@@ -17,8 +16,6 @@ def get_revision():
 
 load_dotenv()
 app = Flask(__name__)
-app.config['GITHUB_APP_ID'] = os.environ.get('GITHUB_APP_ID')
-app.config['GITHUB_SECRET'] = os.environ.get('GITHUB_SECRET')
 app.register_blueprint(webhook)
 
 
