@@ -12,8 +12,10 @@ See [T249703](https://phabricator.wikimedia.org/T249703).
 3. Create the app
 4. Create a private key under "Private keys" and add it to this deployment's root with name `github-app-key.pem`
 5. Install app to all repositories
+6. Copy `.env.example` to `.env` and fill GITHUB_APP_ID=(app id) GITHUB_APP_SECRET=(webhook secret you set earlier)
+7. Profit
 
-## Resources
+## Resources used
 
 - https://developer.github.com/v3/activity/events/types/#pullrequestevent
 - https://fedoramagazine.org/continuous-deployment-github-python/
