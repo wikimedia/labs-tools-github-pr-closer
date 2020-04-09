@@ -3,6 +3,7 @@
 See [T249703](https://phabricator.wikimedia.org/T249703).
 
 ## Creating a GitHub app for this tool
+
 1. Go to organization settings -> github apps -> new github apps
 2. Fill in the page. Pay attention to the following settings:
     * **Webhook**: active=true, url=https://(base-url)/github, secret=(random string here)
@@ -13,8 +14,10 @@ See [T249703](https://phabricator.wikimedia.org/T249703).
 5. Install app to all repositories
 
 ## Resources
+
 - https://developer.github.com/v3/activity/events/types/#pullrequestevent
 - https://fedoramagazine.org/continuous-deployment-github-python/
 
 ## License
+
 This tool is licensed under the MIT license. See `LICENSE` for more details.
