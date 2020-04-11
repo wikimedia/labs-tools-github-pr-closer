@@ -29,6 +29,9 @@ class Repo:
         self.repo_id = repo_id
         self.access_token = None
 
+    def set_access_token(self, token):
+        self.access_token = token
+
     def fetch_access_token(self):
         jwt_token = get_jwt()
         install_data = requests.get('https://api.github.com/repos/' + self.repo_name + "/installation",
@@ -53,7 +56,7 @@ class Repo:
                                        "Authorization": "Bearer " + jwt_token,
                                        "Accept": "application/vnd.github.machine-man-preview+json"
                                    })
-        self.access_token = token_data.json()['token']
+        self.set_access_token(token_data.json()['token'])
 
     def does_file_exist(self, file_name):
         return requests.get('https://api.github.com/repos/' + self.repo_name + '/contents/' + file_name,
@@ -63,7 +66,7 @@ class Repo:
                             }).status_code == 200
 
     def should_close(self):
-        return not self.does_file_exist('.gitreview')
+        return self.does_file_exist('.gitreview')
 
     def comment_and_close(self, pull_request):
         comment_url = 'https://api.github.com/repos/' + self.repo_name + '/issues/' + str(pull_request['number']) + '/comments'
