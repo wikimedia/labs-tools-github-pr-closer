@@ -15,25 +15,10 @@ REPO_CACHE = {}
 jwt = github.get_jwt()
 
 print("Retrieving install id")
-install_id = requests.get('https://api.github.com/orgs/' + args.organization + "/installation",
-                          headers={
-                              "Authorization": "Bearer " + jwt,
-                              "Accept": "application/vnd.github.machine-man-preview+json"
-                          }).json()['id']
+install_id = github.get_install_id(jwt, 'orgs', args.organization)
 
 print("Got install id, retrieving access token")
-access_token = requests.post('https://api.github.com/app/installations/' + str(install_id) + '/access_tokens',
-                             json={
-                                 "permissions": {
-                                     "metadata": "read",
-                                     "pull_requests": "write",
-                                     "single_file": "read",
-                                 }
-                             },
-                             headers={
-                                 "Authorization": "Bearer " + jwt,
-                                 "Accept": "application/vnd.github.machine-man-preview+json"
-                             }).json()['token']
+access_token = github.get_access_token(jwt, install_id)
 
 print("Got access token, searching")
 search_results = requests.get('https://api.github.com/search/issues',
