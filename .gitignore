@@ -4,3 +4,4 @@
 /.gitignore
 /github-app-key.pem
 /.env
+/.tox

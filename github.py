@@ -63,7 +63,7 @@ class Repo:
                             }).status_code == 200
 
     def should_close(self):
-        return not self.does_file_exist('.gitreview')  # and not self.does_file_exist('.arcconfig') TODO: enable arcconfig when verified with RelEng (filename) and Security (repo permissions)
+        return not self.does_file_exist('.gitreview')
 
     def comment_and_close(self, pull_request):
         comment_url = 'https://api.github.com/repos/' + self.repo_name + '/issues/' + str(pull_request['number']) + '/comments'
