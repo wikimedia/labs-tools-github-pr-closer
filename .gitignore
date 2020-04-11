@@ -5,3 +5,4 @@
 /github-app-key.pem
 /.env
 /.tox
+/__pycache__

@@ -18,7 +18,7 @@ See [T249703](https://phabricator.wikimedia.org/T249703).
     * GITHUB_APP_SECRET=(webhook secret you set when creating the application)
 7. Profit
 
-## Resources used
+## Useful resources
 
 - https://developer.github.com/v3/activity/events/types/#pullrequestevent
 - https://fedoramagazine.org/continuous-deployment-github-python/
