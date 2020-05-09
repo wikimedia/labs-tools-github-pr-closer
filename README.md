@@ -16,7 +16,8 @@ See [T249703](https://phabricator.wikimedia.org/T249703).
 6. Copy `.env.example` to `.env` and fill in the following settings:
     * GITHUB_APP_ID=(app settings ->  general in sidebar -> about -> App ID)
     * GITHUB_APP_SECRET=(webhook secret you set when creating the application)
-7. Profit
+7. Restart web service if it's already running
+8. Profit
 
 ## Useful resources
 
