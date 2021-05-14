@@ -21,8 +21,8 @@ def handle_github_hook():
 
         repo = github.Repo(request.json['repository']['full_name'], request.json['repository']['id'])
 
-        if repo.should_close():
+        if repo.should_close(request.json['pull_request']['user']['login']):
             repo.comment_and_close(request.json['pull_request'])
-            print("Closed pr #" + str(request.json['pull_request']['number']) + " on repository " + repo.repo_name)
+            print("Closed pr #" + str(request.json['pull_request']['number']) + " on repository " + repo.repo_name, " made by ", request.json['pull_request']['user']['login'])
 
     return jsonify({}), 200

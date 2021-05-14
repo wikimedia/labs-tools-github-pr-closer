@@ -74,7 +74,10 @@ class Repo:
                                 "Authorization": "token " + self.access_token,
                             }).status_code == 200
 
-    def should_close(self):
+    def should_close(self, author):
+        if author == 'dependabot[bot]' and self.does_file_exist('.github/workflows/dependabot-gerrit.yml'):
+            return False
+
         return self.does_file_exist('.gitreview')
 
     def comment_and_close(self, pull_request):
