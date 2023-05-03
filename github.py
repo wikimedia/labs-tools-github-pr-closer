@@ -56,9 +56,7 @@ def get_access_token(jwt_token, install_id, additional_args=None):
     }
 
     return requests.post(
-        "https://api.github.com/app/installations/"
-        + str(install_id)
-        + "/access_tokens",
+        f"https://api.github.com/app/installations/{install_id}/access_tokens",
         json=params,
         headers={
             "Authorization": "Bearer " + jwt_token,
@@ -84,6 +82,12 @@ class Repo:
             get_access_token(jwt_token, install_id, {"repository_ids": [self.repo_id]})
         )
 
+    def get_access_token(self):
+        if self.access_token is None:
+            self.fetch_access_token()
+
+        return self.access_token
+
     def does_file_exist(self, file_name):
         return (
             requests.get(
@@ -93,7 +97,7 @@ class Repo:
                 + file_name,
                 headers={
                     "Accept": "application/vnd.github.v3+json",
-                    "Authorization": "token " + self.access_token,
+                    "Authorization": f"token {self.get_access_token()}",
                 },
             ).status_code
             == 200
@@ -131,7 +135,7 @@ class Repo:
             },
             headers={
                 "Accept": "application/vnd.github.v3+json",
-                "Authorization": "token " + self.access_token,
+                "Authorization": f"token {self.get_access_token()}",
             },
         )
         requests.patch(
@@ -141,6 +145,6 @@ class Repo:
             },
             headers={
                 "Accept": "application/vnd.github.v3+json",
-                "Authorization": "token " + self.access_token,
+                "Authorization": f"token {self.get_access_token()}",
             },
         )
