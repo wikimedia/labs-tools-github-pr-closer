@@ -4,23 +4,32 @@ import os
 import requests
 
 
+GITHUB_PRIVATE_KEY_FILE = "/data/project/github-pr-closer/data/github-app-key.pem"
+GITHUB_APP_ID_FILE = "/data/project/github-pr-closer/data/github-app-id.txt"
+GITHUB_APP_SECRET_FILE = "/data/project/github-pr-closer/data/github-app-secret.txt"
+
+
 def get_jwt():
-    path_to_private_key = os.path.join(os.getcwd(), "github-app-key.pem")
-    pem_file = open(path_to_private_key, "rt").read()
+    with open(GITHUB_PRIVATE_KEY_FILE, "rt") as f:
+        pem_file = f.read()
+    with open(GITHUB_APP_ID_FILE, "rt") as f:
+        app_id = f.read()
 
     payload = {
         "iat": int(time.time()),
         "exp": int(time.time()) + (10 * 60),
-        "iss": os.environ.get("GITHUB_APP_ID"),
+        "iss": app_id,
     }
+
     encoded = jwt.encode(payload, pem_file, algorithm="RS256")
     bearer_token = encoded.decode("utf-8")
     return bearer_token
 
 
 def get_message_template():
-    template_path = os.path.join(os.getcwd(), "message_template.md")
-    return open(template_path, "rt").read()
+    template_path = os.path.join(os.path.dirname(__file__), "message_template.md")
+    with open(template_path, "rt") as f:
+        return f.read()
 
 
 def get_install_id(jwt_token, api_type, name):

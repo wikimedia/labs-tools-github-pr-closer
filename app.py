@@ -1,7 +1,6 @@
 import subprocess
 from flask import Flask, render_template
 from webhook_handler import webhook
-from dotenv import load_dotenv
 
 
 def get_revision():
@@ -20,7 +19,6 @@ def get_revision():
         return ""
 
 
-load_dotenv()
 app = Flask(__name__)
 app.register_blueprint(webhook)
 

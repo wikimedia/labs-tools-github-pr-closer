@@ -1,4 +1,3 @@
-import os
 import hmac
 from flask import request, Blueprint, jsonify
 import github
@@ -12,7 +11,8 @@ def handle_github_hook():
     signature = request.headers.get("X-Hub-Signature")
     sha, signature = signature.split("=")
 
-    secret = str.encode(os.environ.get("GITHUB_SECRET"))
+    with open(github.GITHUB_APP_SECRET_FILE, "rt") as f:
+        secret = f.read().encode("utf-8")
     hashhex = hmac.new(secret, request.data, digestmod="sha1").hexdigest()
 
     if hmac.compare_digest(hashhex, signature):

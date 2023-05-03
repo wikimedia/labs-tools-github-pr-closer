@@ -11,13 +11,10 @@ See [T249703](https://phabricator.wikimedia.org/T249703).
     * **Repository permissions**: Enable Pull requests as read and write and Single file as read-only for `.gitreview`. This will enable Metadata, leave it as is.
     * **Subscribe to events**: Enable event "Pull request", leave everything else disabled
 3. Create the app
-4. Go to app settings -> (in sidebar) general -> private keys -> generate a private key -> save file to the same directory where `app.py` is with the name `github-app-key.pem`
+4. Go to app settings -> (in sidebar) general -> private keys -> generate a private key -> save file `/data/project/github-pr-closer/data/github-app-key.pem`
 5. Go to app settings -> (in sidebar) install app -> select your organization and click install -> use all repositories -> install
-6. Copy `.env.example` to `.env` and fill in the following settings:
-    * GITHUB_APP_ID=(app settings ->  general in sidebar -> about -> App ID)
-    * GITHUB_APP_SECRET=(webhook secret you set when creating the application)
-7. Restart web service if it's already running
-8. Profit
+6. Create `/data/project/github-pr-closer/data/github-app-id.txt` with the app ID (app settings -> general in sidebar -> about -> App ID)
+7. Create `/data/project/github-pr-closer/data/github-app-secret.txt` with the webhook secret you chose when creating the application.
 
 ## Useful resources
 
