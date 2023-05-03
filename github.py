@@ -9,7 +9,7 @@ GITHUB_APP_ID_FILE = "/data/project/github-pr-closer/data/github-app-id.txt"
 GITHUB_APP_SECRET_FILE = "/data/project/github-pr-closer/data/github-app-secret.txt"
 
 
-def get_jwt():
+def get_jwt() -> str:
     with open(GITHUB_PRIVATE_KEY_FILE, "rt") as f:
         pem_file = f.read()
     with open(GITHUB_APP_ID_FILE, "rt") as f:
@@ -21,12 +21,10 @@ def get_jwt():
         "iss": app_id,
     }
 
-    encoded = jwt.encode(payload, pem_file, algorithm="RS256")
-    bearer_token = encoded.decode("utf-8")
-    return bearer_token
+    return jwt.encode(payload, pem_file, algorithm="RS256")
 
 
-def get_message_template():
+def get_message_template() -> str:
     template_path = os.path.join(os.path.dirname(__file__), "message_template.md")
     with open(template_path, "rt") as f:
         return f.read()
