@@ -15,23 +15,26 @@ def handle_github_hook():
         secret = f.read().encode("utf-8")
     hashhex = hmac.new(secret, request.data, digestmod="sha1").hexdigest()
 
-    if hmac.compare_digest(hashhex, signature):
-        if request.json["action"] != "opened":
-            return jsonify({}), 200
+    if not hmac.compare_digest(hashhex, signature):
+        return jsonify({}), 200
+    if request.json["action"] not in ("opened", "reopened"):
+        return jsonify({}), 200
 
-        repo = github.Repo(
-            request.json["repository"]["full_name"], request.json["repository"]["id"]
-        )
+    repo = github.Repo(
+        request.json["repository"]["full_name"], request.json["repository"]["id"]
+    )
 
-        if repo.should_close(request.json["pull_request"]["user"]["login"]):
-            repo.comment_and_close(request.json["pull_request"])
-            print(
-                "Closed pr #"
-                + str(request.json["pull_request"]["number"])
-                + " on repository "
-                + repo.repo_name,
-                " made by ",
-                request.json["pull_request"]["user"]["login"],
-            )
+    if not repo.should_close(request.json["pull_request"]["user"]["login"]):
+        return jsonify({}), 200
+
+    repo.comment_and_close(request.json["pull_request"])
+    print(
+        "Closed pr #"
+        + str(request.json["pull_request"]["number"])
+        + " on repository "
+        + repo.repo_name,
+        " made by ",
+        request.json["pull_request"]["user"]["login"],
+    )
 
     return jsonify({}), 200
