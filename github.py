@@ -4,16 +4,14 @@ import os
 import requests
 
 
-GITHUB_PRIVATE_KEY_FILE = "/data/project/github-pr-closer/data/github-app-key.pem"
-GITHUB_APP_ID_FILE = "/data/project/github-pr-closer/data/github-app-id.txt"
-GITHUB_APP_SECRET_FILE = "/data/project/github-pr-closer/data/github-app-secret.txt"
+GITHUB_PRIVATE_KEY_ENVVAR = "GHPRC_JWT_SIGNING_KEY"
+GITHUB_APP_ID_ENVVAR = "GHPRC_APP_ID"
+GITHUB_APP_SECRET_ENVVAR = "GHPRC_APP_SECRET"
 
 
 def get_jwt() -> str:
-    with open(GITHUB_PRIVATE_KEY_FILE, "rt") as f:
-        pem_file = f.read()
-    with open(GITHUB_APP_ID_FILE, "rt") as f:
-        app_id = f.read()
+    signing_key = os.getenv(GITHUB_PRIVATE_KEY_ENVVAR)
+    app_id = os.getenv(GITHUB_APP_ID_ENVVAR)
 
     payload = {
         "iat": int(time.time()),
@@ -21,7 +19,7 @@ def get_jwt() -> str:
         "iss": app_id,
     }
 
-    return jwt.encode(payload, pem_file, algorithm="RS256")
+    return jwt.encode(payload, signing_key, algorithm="RS256")
 
 
 def get_message_template() -> str:

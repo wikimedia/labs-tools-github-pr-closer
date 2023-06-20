@@ -11,10 +11,10 @@ See [T249703](https://phabricator.wikimedia.org/T249703).
     * **Repository permissions**: Enable Pull requests as read and write and Single file as read-only for `.gitreview`. This will enable Metadata, leave it as is.
     * **Subscribe to events**: Enable event "Pull request", leave everything else disabled
 3. Create the app
-4. Go to app settings -> (in sidebar) general -> private keys -> generate a private key -> save file `/data/project/github-pr-closer/data/github-app-key.pem`
+4. Go to app settings -> (in sidebar) general -> private keys -> generate a private key -> save as a file on Toolforge -> `toolforge envvars create GHPRC_JWT_SIGNING_KEY -- $(cat filenam)`
 5. Go to app settings -> (in sidebar) install app -> select your organization and click install -> use all repositories -> install
-6. Create `/data/project/github-pr-closer/data/github-app-id.txt` with the app ID (app settings -> general in sidebar -> about -> App ID)
-7. Create `/data/project/github-pr-closer/data/github-app-secret.txt` with the webhook secret you chose when creating the application.
+6. Get the App ID (app settings -> general in sidebar -> about -> App ID) and create a envvar for it: `toolforge envvars create GHPRC_APP_ID app-id-here`
+7. Create an envvar you chose when creating the app: `toolforge envvars create GHPRC_APP_SECRET app-secret-here`
 
 ## Useful resources
 
