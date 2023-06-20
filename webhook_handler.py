@@ -12,7 +12,7 @@ def handle_github_hook():
     signature = request.headers.get("X-Hub-Signature")
     sha, signature = signature.split("=")
 
-    secret = os.getenv("GITHUB_APP_SECRET_ENVVAR")
+    secret = os.environ.get(github.GITHUB_APP_SECRET_ENVVAR)
     hashhex = hmac.new(secret, request.data, digestmod="sha1").hexdigest()
 
     if not hmac.compare_digest(hashhex, signature):

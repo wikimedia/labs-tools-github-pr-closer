@@ -10,8 +10,8 @@ GITHUB_APP_SECRET_ENVVAR = "GHPRC_APP_SECRET"
 
 
 def get_jwt() -> str:
-    signing_key = os.getenv(GITHUB_PRIVATE_KEY_ENVVAR)
-    app_id = os.getenv(GITHUB_APP_ID_ENVVAR)
+    signing_key = os.environ.get(GITHUB_PRIVATE_KEY_ENVVAR)
+    app_id = os.environ.get(GITHUB_APP_ID_ENVVAR)
 
     payload = {
         "iat": int(time.time()),
