@@ -17,18 +17,21 @@ def index():
 def handle_github_hook():
     """Entry point for GitHub webhook"""
     signature = request.headers.get("X-Hub-Signature")
+    if not signature or "=" not in signature:
+        app.logger.info("Missing signature")
+        return jsonify({"error": "missing signature"}), 400
     sha, signature = signature.split("=")
 
     secret = os.environ.get(GITHUB_APP_SECRET_ENVVAR).encode("utf-8")
     hashhex = hmac.new(secret, request.data, digestmod="sha1").hexdigest()
 
     if not hmac.compare_digest(hashhex, signature):
-        app.logger.info("Bad signature.")
-        return jsonify({}), 200
+        app.logger.info("Bad signature")
+        return jsonify({"error": "bad signature"}), 400
 
     action = request.json.get("action")
     if action not in ("opened", "reopened"):
-        app.logger.info("Ignoring action %s.", action)
+        app.logger.info("Ignoring action %s", action)
         return jsonify({}), 200
 
     repo = Repo(
