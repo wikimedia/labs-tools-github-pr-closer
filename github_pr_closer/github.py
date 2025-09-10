@@ -1,5 +1,6 @@
 import os
 import time
+from pathlib import Path
 
 import jwt
 import requests
@@ -23,9 +24,7 @@ def get_jwt() -> str:
 
 
 def get_message_template() -> str:
-    template_path = os.path.join(os.path.dirname(__file__), "message_template.md")
-    with open(template_path, "rt") as f:
-        return f.read()
+    return (Path(__file__).parent / "message_template.md").read_text()
 
 
 def get_install_id(jwt_token, api_type, name):
