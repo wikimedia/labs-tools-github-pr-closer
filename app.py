@@ -1,4 +1,5 @@
 import hmac
+import logging
 import os
 
 from flask import Flask, jsonify, render_template, request
@@ -65,3 +66,8 @@ def handle_github_hook():
 
 if __name__ == "__main__":
     app.run()
+else:
+    # https://trstringer.com/logging-flask-gunicorn-the-manageable-way/
+    gunicorn_logger = logging.getLogger("gunicorn.error")
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
